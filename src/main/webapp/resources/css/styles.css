@@ -1,0 +1,82 @@
+.wide-wrapper{
+    width: 100%;
+    min-width: 970px;
+}
+
+.wrapper{
+    width: 640px;
+    margin: 0 auto;
+}
+
+.movie-item{
+    width: 640px;
+    padding: 5px;
+    margin-bottom: 20px;
+    background-color: #F0F0F0;
+}
+
+.movie-item-label{
+    text-align: left;
+    width: 100%;
+}
+
+.movie-item-label-link{
+    text-decoration: none;
+    font-size: 30px;
+    color:#000;
+    cursor:pointer;
+}
+
+.movie-item-pic{
+    width: 150px;
+    height: 200px;
+    margin-right: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.movie-item-info{
+    display: inline-block;
+    height: 200px;
+    width: 460px;
+    vertical-align: middle;
+}
+
+.producer{
+    text-decoration: none;
+    font-size: 18px;
+    color:#000;
+    cursor:pointer;
+}
+
+.producer-header{
+    text-decoration: none;
+    font-size: 18px;
+    color:#000;
+    font-weight: bold;
+}
+
+.descr-header{
+    font-size: 14px;
+    color:#000;
+    font-weight: bold;
+}
+
+.descr{
+    font-size: 14px;
+    color:#000;
+}
+
+.descr-input{
+    width: 380px;
+    height: 170px;
+}
+
+.ico-input{
+    width: 450px;
+}
+
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
