@@ -16,10 +16,12 @@ import java.util.Collection;
 public class MovieServiceImpl implements MovieService {
 
     private MovieRepository movieRepository;
+    private UserService userService;
 
     @Autowired
-    public MovieServiceImpl(MovieRepository movieRepository) {
+    public MovieServiceImpl(MovieRepository movieRepository, UserService userService) {
         this.movieRepository = movieRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class MovieServiceImpl implements MovieService {
         if (userDetails == null)
             return movieRepository.findAll();
         else
-            return movieRepository.findAll(userDetails);
+            return movieRepository.findAll(userService.findOneByLogin(userDetails.getUsername()));
     }
 
     @Override
@@ -45,7 +47,7 @@ public class MovieServiceImpl implements MovieService {
         if (userDetails == null)
             return movieRepository.findAll(s);
         else
-            return movieRepository.findAll(userDetails, s);
+            return movieRepository.findAll(userService.findOneByLogin(userDetails.getUsername()), s);
     }
 
     @Override
@@ -86,7 +88,7 @@ public class MovieServiceImpl implements MovieService {
         Integer ratingsCount = movie.getRatingsCount();
         movie.setRatingsCount(ratingsCount == null ? 1 : ratingsCount + 1);
         Double averageRating = movie.getAverageRating();
-        double average = (movie.getAverageRating() == null ? 0 : averageRating + rating.getRatingValue()) / (double)movie.getRatingsCount();
+        double average = (movie.getAverageRating() == null ? rating.getRatingValue() : averageRating*ratingsCount + rating.getRatingValue()) / (double)movie.getRatingsCount();
         movie.setAverageRating(average);
         movieRepository.update(movie);
     }
