@@ -42,33 +42,29 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Collection<Movie> findAll(UserDetails userDetails) throws DataAccessException {
-//        if (userDetails == null)
-//            return findAll(); service
+    public Collection<Movie> findAll(User user) throws DataAccessException {
 
         TypedQuery<Object[]> query = this.entityManager.createQuery
                 ("select movie, rating.ratingValue from Movie movie " +
-                        "left join movie.ratings rating " +
-                        "left join rating.primaryKey.user user " +
-                        "on(user.login = :login)", Object[].class);
+                        "left join movie.ratings rating on(rating.primaryKey.user.id = :id)", Object[].class);
 
-        query.setParameter("login", userDetails.getUsername());
+        query.setParameter("id", user.getId());
+
         return setUserMovieRatings(query.getResultList());
 
     }
 
     @Override
-    public Collection<Movie> findAll(UserDetails userDetails, String s) throws DataAccessException {
+    public Collection<Movie> findAll(User user, String s) throws DataAccessException {
+
         TypedQuery<Object[]> query = this.entityManager.createQuery
                 ("select movie, rating.ratingValue from Movie movie " +
                         "left join movie.ratings rating on(rating.primaryKey.user.id = :id) " +
-//                        "join rating.primaryKey.user user " +
-//                        "on(user.login = :login)" +
                         "where lower(movie.title) like :s", Object[].class);
 
-//        query.setParameter("login", userDetails.getUsername());
-        query.setParameter("id", 1); //move logic to service!!!!!!!!!!!
+        query.setParameter("id", user.getId());
         query.setParameter("s", "%" + s + "%");
+
         return setUserMovieRatings(query.getResultList());
     }
 
@@ -94,11 +90,11 @@ public class MovieRepositoryImpl implements MovieRepository {
         Query query = this.entityManager.createQuery("select rating.ratingValue from Rating rating where rating.primaryKey.movie.id = :id");
         query.setParameter("id", movie.getId());
         List<Integer> values = query.getResultList();
-        if (!values.isEmpty()){
-            for (Integer value : values){
+        if (!values.isEmpty()) {
+            for (Integer value : values) {
                 sum += value;
             }
-            average = sum/values.size();
+            average = sum / values.size();
             movie.setAverageRating(average);
             movie.setRatingsCount(values.size());
 
@@ -107,13 +103,13 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     }
 
-    private Collection<Movie> setUserMovieRatings(List<Object[]> objects){
+    private Collection<Movie> setUserMovieRatings(List<Object[]> objects) {
         List<Movie> movies = new ArrayList<>();
 
-        for (Object[] o : objects){
-            Movie m = (Movie)o[0];
-            if (o[1] != null){
-                Integer currentUserRating = (Integer)o[1];
+        for (Object[] o : objects) {
+            Movie m = (Movie) o[0];
+            if (o[1] != null) {
+                Integer currentUserRating = (Integer) o[1];
                 m.setCurrentUserRating(currentUserRating);
             }
             movies.add(m);
