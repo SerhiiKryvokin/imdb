@@ -20,9 +20,6 @@ public class User {
 
     @Column(name = "user_role")
     private String role;
-//
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-//    private List<Rating> ratings;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "primaryKey.user")
     private List<Rating> ratings;
