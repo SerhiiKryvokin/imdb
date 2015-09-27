@@ -1,11 +1,13 @@
 package com.imdb.repository.JPA;
 
 import com.imdb.model.Movie;
+import com.imdb.model.Rating;
 import com.imdb.model.User;
 import com.imdb.repository.MovieRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.EntityManager;
@@ -90,17 +92,23 @@ public class MovieRepositoryImpl implements MovieRepository {
         Query query = this.entityManager.createQuery("select rating.ratingValue from Rating rating where rating.primaryKey.movie.id = :id");
         query.setParameter("id", movie.getId());
         List<Integer> values = query.getResultList();
+//        List<Integer> values = new ArrayList<>();
+//        List<Rating> ratings = movie.getRatings();
+//        for (Rating r : ratings){
+//            values.add(r.getRatingValue());
+//        }
         if (!values.isEmpty()) {
             for (Integer value : values) {
                 sum += value;
             }
-            average = sum / values.size();
+            average = (double)sum / values.size();
             movie.setAverageRating(average);
             movie.setRatingsCount(values.size());
-
-            update(movie);
+        } else {
+            movie.setAverageRating(null);
+            movie.setRatingsCount(null);
         }
-
+        update(movie);
     }
 
     private Collection<Movie> setUserMovieRatings(List<Object[]> objects) {
