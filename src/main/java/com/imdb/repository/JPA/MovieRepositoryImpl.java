@@ -85,31 +85,31 @@ public class MovieRepositoryImpl implements MovieRepository {
         this.entityManager.remove(movie);
     }
 
-    @Override
-    public void refreshAverageRating(Movie movie) throws DataAccessException {
-        int sum = 0;
-        double average = 0;
-        Query query = this.entityManager.createQuery("select rating.ratingValue from Rating rating where rating.primaryKey.movie.id = :id");
-        query.setParameter("id", movie.getId());
-        List<Integer> values = query.getResultList();
+//    @Override
+//    public void refreshAverageRating(Movie movie) throws DataAccessException {
+//        int sum = 0;
+//        double average = 0;
+////        Query query = this.entityManager.createQuery("select rating.ratingValue from Rating rating where rating.primaryKey.movie.id = :id");
+////        query.setParameter("id", movie.getId());
+////        List<Integer> values = query.getResultList();
 //        List<Integer> values = new ArrayList<>();
 //        List<Rating> ratings = movie.getRatings();
 //        for (Rating r : ratings){
 //            values.add(r.getRatingValue());
 //        }
-        if (!values.isEmpty()) {
-            for (Integer value : values) {
-                sum += value;
-            }
-            average = (double)sum / values.size();
-            movie.setAverageRating(average);
-            movie.setRatingsCount(values.size());
-        } else {
-            movie.setAverageRating(null);
-            movie.setRatingsCount(null);
-        }
-        update(movie);
-    }
+//        if (!values.isEmpty()) {
+//            for (Integer value : values) {
+//                sum += value;
+//            }
+//            average = (double)sum / values.size();
+//            movie.setAverageRating(average);
+//            movie.setRatingsCount(values.size());
+//        } else {
+//            movie.setAverageRating(null);
+//            movie.setRatingsCount(null);
+//        }
+//        update(movie);
+//    }
 
     private Collection<Movie> setUserMovieRatings(List<Object[]> objects) {
         List<Movie> movies = new ArrayList<>();

@@ -16,7 +16,8 @@ public interface MovieService {
     void save(Movie movie) throws DataAccessException;
     void update(Movie movie) throws DataAccessException;
     void remove(Movie movie) throws DataAccessException;
-    void refreshAverageRating(Movie movie) throws DataAccessException;
-    void refreshAverageRating(Collection<Movie> movies) throws DataAccessException;
+//    void refreshAverageRating(Movie movie) throws DataAccessException;
+//    void refreshAverageRating(Collection<Movie> movies) throws DataAccessException;
+    void refreshAverageRating() throws DataAccessException;
     void commitRating(Rating rating) throws DataAccessException;
 }

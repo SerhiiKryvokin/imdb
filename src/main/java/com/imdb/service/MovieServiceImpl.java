@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @Transactional
@@ -70,16 +72,42 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.remove(movie);
     }
 
-    @Override
-    public void refreshAverageRating(Movie movie) throws DataAccessException {
-        movieRepository.refreshAverageRating(movie);
+    private void refreshAverageRating(Movie movie) throws DataAccessException {
+//        movieRepository.refreshAverageRating(movie);
+        int sum = 0;
+        double average = 0;
+
+//        Query query = this.entityManager.createQuery("select rating.ratingValue from Rating rating where rating.primaryKey.movie.id = :id");
+//        query.setParameter("id", movie.getId());
+//        List<Integer> values = query.getResultList();
+        List<Integer> values = new ArrayList<>();
+        List<Rating> ratings = movie.getRatings();
+        for (Rating r : ratings){
+            values.add(r.getRatingValue());
+        }
+        if (!values.isEmpty()) {
+            for (Integer value : values) {
+                sum += value;
+            }
+            average = (double)sum / values.size();
+            movie.setAverageRating(average);
+            movie.setRatingsCount(values.size());
+        } else {
+            movie.setAverageRating(null);
+            movie.setRatingsCount(null);
+        }
+        movieRepository.update(movie);
     }
 
-    @Override
-    public void refreshAverageRating(Collection<Movie> movies) throws DataAccessException {
+    private void refreshAverageRating(Collection<Movie> movies) throws DataAccessException {
         for (Movie movie : movies){
             refreshAverageRating(movie);
         }
+    }
+
+    @Override
+    public void refreshAverageRating() throws DataAccessException {
+        refreshAverageRating(movieRepository.findAll());
     }
 
     @Override

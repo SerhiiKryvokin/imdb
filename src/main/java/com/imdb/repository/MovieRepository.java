@@ -17,5 +17,5 @@ public interface MovieRepository {
     void update(Movie movie) throws DataAccessException;
     void remove(Movie movie) throws DataAccessException;
 
-    void refreshAverageRating(Movie movie) throws DataAccessException;
+//    void refreshAverageRating(Movie movie) throws DataAccessException;
 }
