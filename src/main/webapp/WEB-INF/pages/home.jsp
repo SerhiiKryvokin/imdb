@@ -58,6 +58,14 @@
                             </c:otherwise>
                         </c:choose>
                     </sec:authorize>
+                    <sec:authorize access="hasRole('ADMIN')">
+                        <form action="<c:url value="/admin/movie/delete/${movie.id}"/>" method="post">
+                            <input type="submit" value="Delete">
+                            <input type="hidden"
+                                   name="${_csrf.parameterName}"
+                                   value="${_csrf.token}"/>
+                        </form>
+                    </sec:authorize>
                         <%--<div class="movie-item-rating">--%>
                         <%--<span class="descr-header">Rating: ${movies.rating}</span>--%>
                         <%--</div>--%>
