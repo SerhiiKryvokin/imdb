@@ -45,23 +45,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/refresh",method = RequestMethod.GET)
 	public String doRefresh() {
-		Director director = directorService.findById(1);
-//		int size = director.getMovies().size();
-//	 	List<Movie> movies = director.getMovies();
-//
-////		Movie movie1 = movies.get(0);
-//		Movie movie2 = movieService.findById(6);
-//		Collection<Movie> movies = movieService.findAll();
-//		movieService.refreshAverageRating(movies);
-//		Movie movie = movieService.findById(6);
-//		movie.setAverageRating(3.0);
-//		movieService.update(movie);
-//		Director director = directorService.findById(1);
-//		director.setName("Steven Spielbergg");
-//		directorService.update(director);
-//		Movie movie = movieService.findById(6);
-//		movieService.remove(movie);
-//		movieService.save(movie);
+		movieService.refreshAverageRating();
 		return "redirect:/";
 	}
 }

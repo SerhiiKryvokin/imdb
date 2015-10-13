@@ -54,8 +54,6 @@ public class RatingServiceImpl implements RatingService{
         ratingId.setUser(userService.findOneByLogin(userDetails.getUsername()));
         ratingId.setMovie(movie);
         rating.setPrimaryKey(ratingId);
-//        rating.getPrimaryKey().setMovie(movie);
-//        rating.getPrimaryKey().setUser(userService.findOneByLogin(userDetails.getUsername()));
         rating.setRatingValue(value);
         ratingRepository.save(rating);
         movieService.commitRating(rating);

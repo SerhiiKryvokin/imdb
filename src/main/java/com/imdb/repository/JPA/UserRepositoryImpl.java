@@ -45,20 +45,6 @@ public class UserRepositoryImpl implements UserRepository {
         return (User)query.getSingleResult();
     }
 
-//    @Override
-//    public Boolean isLogPassValid(String login, String password) throws DataAccessException {
-//        Query query = this.entityManager.createQuery("select user from User user where user.login = :log and user.passHash = :pass");
-//        query.setParameter("log", login);
-//        query.setParameter("pass", password);
-//        List results = query.getResultList();
-//        if (results.isEmpty() || results.size() > 1){
-//            return false;
-//        } else {
-//            return true;
-//        }
-//    } MOVED TO SERVICE
-
-
     @Override
     public void save(User user) throws DataAccessException {
         this.entityManager.persist(user);

@@ -11,7 +11,6 @@ public interface UserRepository {
     Collection<User> findByLogin(String s) throws DataAccessException;
     User findById(Integer id) throws DataAccessException;
     User findOneByLogin(String login) throws DataAccessException;
-//    Boolean isLogPassValid(String login, String password) throws DataAccessException;
     void save(User user) throws DataAccessException;
     void update(User user) throws DataAccessException;
 }

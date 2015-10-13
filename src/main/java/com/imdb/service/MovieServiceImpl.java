@@ -86,18 +86,28 @@ public class MovieServiceImpl implements MovieService {
     public void commitRating(Rating rating) throws DataAccessException {
         Movie movie = rating.getPrimaryKey().getMovie();
         Integer ratingsCount = movie.getRatingsCount();
-        movie.setRatingsCount(ratingsCount == null ? 1 : ratingsCount + 1);
         Double averageRating = movie.getAverageRating();
-        double average = (movie.getAverageRating() == null ? rating.getRatingValue() : averageRating*ratingsCount + rating.getRatingValue()) / (double)movie.getRatingsCount();
-        movie.setAverageRating(average);
+        if (ratingsCount == null) {
+            movie.setAverageRating(rating.getRatingValue().doubleValue());
+            movie.setRatingsCount(1);
+        } else {
+            movie.setRatingsCount(ratingsCount + 1);
+            double average = (averageRating*ratingsCount + rating.getRatingValue()) / (double)movie.getRatingsCount();
+            movie.setAverageRating(average);
+        }
+
         movieRepository.update(movie);
     }
 
+    private void refreshAverageRating(Collection<Movie> movies) throws DataAccessException {
+        for (Movie movie : movies){
+            refreshAverageRating(movie);
+        }
+    }
+
     private void refreshAverageRating(Movie movie) throws DataAccessException {
-//        movieRepository.refreshAverageRating(movie);
         int sum = 0;
         double average = 0;
-
 //        Query query = this.entityManager.createQuery("select rating.ratingValue from Rating rating where rating.primaryKey.movie.id = :id");
 //        query.setParameter("id", movie.getId());
 //        List<Integer> values = query.getResultList();
@@ -118,11 +128,5 @@ public class MovieServiceImpl implements MovieService {
             movie.setRatingsCount(null);
         }
         movieRepository.update(movie);
-    }
-
-    private void refreshAverageRating(Collection<Movie> movies) throws DataAccessException {
-        for (Movie movie : movies){
-            refreshAverageRating(movie);
-        }
     }
 }
