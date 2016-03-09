@@ -1,34 +1,27 @@
 package com.imdb.web;
 
-import com.imdb.model.Director;
 import com.imdb.model.Movie;
-import com.imdb.service.DirectorService;
 import com.imdb.service.MovieService;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 @Controller
 public class HomeController {
 
 	private MovieService movieService;
-	private DirectorService directorService;
 
 	@Autowired
-	public HomeController(MovieService movieService, DirectorService directorService) {
+	public HomeController(MovieService movieService) {
 		this.movieService = movieService;
-		this.directorService = directorService;
 	}
 
 	@RequestMapping(value = "/",method = RequestMethod.GET)
@@ -43,9 +36,4 @@ public class HomeController {
 		return "home";
 	}
 
-	@RequestMapping(value = "/refresh",method = RequestMethod.GET)
-	public String doRefresh() {
-		movieService.refreshAverageRating();
-		return "redirect:/";
-	}
 }

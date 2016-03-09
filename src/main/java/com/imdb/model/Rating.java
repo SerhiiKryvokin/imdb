@@ -6,8 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "rating")
-//@AssociationOverrides({@AssociationOverride(name = "primaryKey.movie", joinColumns = @JoinColumn(name = "movie_id")),
-//        @AssociationOverride(name = "primaryKey.user", joinColumns = @JoinColumn(name = "imdb_user_id"))})
 public class Rating {
 
     @EmbeddedId

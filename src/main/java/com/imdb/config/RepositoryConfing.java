@@ -31,7 +31,7 @@ public class RepositoryConfing {
         ds.setUrl("jdbc:postgresql://localhost:5432/imdb");
         ds.setUsername("serh");
         ds.setPassword("80978697");
-//        ds.setInitialSize(5);
+        ds.setInitialSize(5);
         return ds;
     }
 

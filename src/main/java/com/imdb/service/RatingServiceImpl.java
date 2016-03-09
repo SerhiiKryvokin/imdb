@@ -2,6 +2,7 @@ package com.imdb.service;
 
 import com.imdb.model.Movie;
 import com.imdb.model.Rating;
+import com.imdb.model.User;
 import com.imdb.model.composite.RatingId;
 import com.imdb.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,18 +11,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
 import java.util.Collection;
 
 @Service
 @Transactional
-public class RatingServiceImpl implements RatingService{
+public class RatingServiceImpl implements RatingService {
 
     private RatingRepository ratingRepository;
     private UserService userService;
     private MovieService movieService;
 
     @Autowired
-    RatingServiceImpl(RatingRepository ratingRepository, UserService userService, MovieService movieService){
+    RatingServiceImpl(RatingRepository ratingRepository, UserService userService, MovieService movieService) {
         this.ratingRepository = ratingRepository;
         this.userService = userService;
         this.movieService = movieService;
@@ -49,9 +51,18 @@ public class RatingServiceImpl implements RatingService{
 
     @Override
     public void rateMovie(UserDetails userDetails, Movie movie, Integer value) throws DataAccessException {
+        rateMovie(userDetails.getUsername(), movie, value);
+    }
+
+    @Override
+    public void rateMovie(User user, Movie movie, Integer value) throws DataAccessException {
+        rateMovie(user.getLogin(), movie, value);
+    }
+
+    private void rateMovie(String username, Movie movie, Integer value) throws DataAccessException {
         Rating rating = new Rating();
         RatingId ratingId = new RatingId();
-        ratingId.setUser(userService.findOneByLogin(userDetails.getUsername()));
+        ratingId.setUser(userService.findOneByLogin(username));
         ratingId.setMovie(movie);
         rating.setPrimaryKey(ratingId);
         rating.setRatingValue(value);

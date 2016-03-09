@@ -1,11 +1,9 @@
 package com.imdb.repository.JPA;
 
 import com.imdb.model.Director;
-import com.imdb.model.User;
 import com.imdb.repository.DirectorRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

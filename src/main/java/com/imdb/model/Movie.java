@@ -9,7 +9,7 @@ public class Movie {
 
     @Id
     @Column(name = "movie_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "title")
@@ -26,7 +26,6 @@ public class Movie {
     private Director director;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "primaryKey.movie")
-//    @OneToMany(mappedBy = "primaryKey.movie")
     private List<Rating> ratings;
 
     @Column(name = "average_rating")

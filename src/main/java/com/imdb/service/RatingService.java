@@ -2,6 +2,7 @@ package com.imdb.service;
 
 import com.imdb.model.Movie;
 import com.imdb.model.Rating;
+import com.imdb.model.User;
 import com.imdb.model.composite.RatingId;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,6 @@ public interface RatingService {
     Rating findById(RatingId id) throws DataAccessException;
     void save(Rating rating) throws DataAccessException;
     void update(Rating rating) throws DataAccessException;
-
     void rateMovie(UserDetails userDetails, Movie movie, Integer value) throws DataAccessException;
+    void rateMovie(User user, Movie movie, Integer value) throws DataAccessException;
 }
